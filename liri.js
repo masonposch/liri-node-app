@@ -1,19 +1,19 @@
 //Require data from keys.js
 var liri = require('./keys.js');
 
+//Require data from Twitter NPM
+var twitter = require('twitter');
+
 
 
 
 //key information
-var twitterInfo = ({
+var client = new twitter({
 	consumerKey: liri.twitterKeys.consumer_key,
 	consumerSecret: liri.twitterKeys.consumer_secret,
 	accessTokenKey: liri.twitterKeys.access_token_key,
 	accessTokenSecret: liri.twitterKeys.access_token_secret
 });
-
-//test for successful retrieval of keys
-console.log(twitterInfo);
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,9 +38,11 @@ if(process.argv[2] === 'my-tweets'){
 
 //Twitter command
 function myTweets(){
-
-	console.log("Here are your last 20 Tweets.");
-
+	client.get('/statuses/user_timeline.json', function(error, tweets, response) {
+	    if(error) throw error;
+	   	console.log(tweets);  // The favorites. 
+		console.log(response);  // Raw response object. 
+	});
 }
 
 
