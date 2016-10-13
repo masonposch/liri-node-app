@@ -1,21 +1,23 @@
-//Require data from keys.js
-var liri = require('./keys.js');
 
 //Require data from Twitter NPM
 var twitter = require('twitter');
+
+//Require data from keys.js
+var liri = require('./keys.js');
+
 
 
 
 
 //key information
 var client = new twitter({
-	consumerKey: liri.twitterKeys.consumer_key,
-	consumerSecret: liri.twitterKeys.consumer_secret,
-	accessTokenKey: liri.twitterKeys.access_token_key,
-	accessTokenSecret: liri.twitterKeys.access_token_secret
+	consumer_key: liri.twitterKeys.consumer_key,
+	consumer_secret: liri.twitterKeys.consumer_secret,
+	access_token_key: liri.twitterKeys.access_token_key,
+	access_token_secret: liri.twitterKeys.access_token_secret
 });
 
-
+console.log(client);
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -38,10 +40,12 @@ if(process.argv[2] === 'my-tweets'){
 
 //Twitter command
 function myTweets(){
-	client.get('/statuses/user_timeline.json', function(error, tweets, response) {
-	    if(error) throw error;
-	   	console.log(tweets);  // The favorites. 
-		console.log(response);  // Raw response object. 
+	var twitterURL = 'https://api.twitter.com/1.1/statuses/user_timeline.json&screen_name=msnpsch&count=20';
+	
+	client.get(twitterURL, function(error, tweets, response) {
+	  if(error) throw error;
+	  console.log(tweets);  // The favorites. 
+	  console.log(response);  // Raw response object. 
 	});
 }
 
