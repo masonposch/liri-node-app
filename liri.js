@@ -1,6 +1,7 @@
 
 //Require data from Twitter NPM
 var twitter = require('twitter');
+var spotify = require('spotify');
 
 //Require data from keys.js
 var liri = require('./keys.js');
@@ -17,7 +18,13 @@ var client = new twitter({
 	access_token_secret: liri.twitterKeys.access_token_secret
 });
 
-console.log(client);
+
+// var spotty = new spotify({
+// 	client_ID: liri.spotifyKeys.consumer_key,
+// 	client_secret: liri.spotifyKeys.consumer_secret
+// });
+
+// console.log(client);
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -25,9 +32,9 @@ console.log(client);
 if(process.argv[2] === 'my-tweets'){
 	myTweets();
 } else if (process.argv[2] === 'spotify-this-song'){
-	spotifyThisSong(process.argv[3]);
+	spotifyThisSong();
 } else if (process.argv[2] === 'movie-this'){
-	movieThis(process.argv[3]);
+	movieThis();
 } else {
 	console.log("Sorry, I'm currently too dumb to process this.");
 }
@@ -40,21 +47,34 @@ if(process.argv[2] === 'my-tweets'){
 
 //Twitter command
 function myTweets(){
-	var twitterURL = 'https://api.twitter.com/1.1/statuses/user_timeline.json&screen_name=msnpsch&count=20';
+	var twitterURL = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
 	
 	client.get(twitterURL, function(error, tweets, response) {
-	  if(error) throw error;
-	  console.log(tweets);  // The favorites. 
-	  console.log(response);  // Raw response object. 
+	  var tweets = tweet.text;
+	  console.log(tweets);
 	});
 }
 
 
 
 //Spotify command
-function spotifyThisSong(){
+function spotifyThisSong(song){
 
-	console.log("Here is your favorite song.");
+spotify.search({ type: 'track', query: process.argv[3] }, function(err, data) {
+    if ( err ) {
+        console.log('Error occurred: ' + err);
+        return;
+    } else {
+    	var songInfo = data.tracks.items[0];
+    	var songResult = 
+                     console.log(songInfo.name)
+                     console.log(songInfo.artists[0].name)
+                     console.log(songInfo.preview_url)
+                     console.log(songInfo.album)
+    }
+ 
+    // Do something with 'data' 
+});
 	
 }
 
