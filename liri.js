@@ -36,6 +36,8 @@ if(process.argv[2] === 'my-tweets'){
 	spotifyThisSong();
 } else if (process.argv[2] === 'movie-this'){
 	movieThis();
+} else if (process.argv[2] === 'do-what-it-says'){
+	doWhatItSays();
 } else {
 	console.log("Sorry, I'm currently too dumb to process this.");
 }
@@ -50,9 +52,12 @@ if(process.argv[2] === 'my-tweets'){
 function myTweets(){
 	var twitterURL = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
 	
-	client.get(twitterURL, function(error, tweets, response) {
-	  var tweets = tweet.text;
-	  console.log(tweets);
+	client.get(twitterURL, {count: 21}, function(error, tweets, response) {
+	  
+	  var tweets = JSON.parse(response.body);
+	  for(var i = 0; i < 20; i++) {
+	  	console.log((i + 1) + ".) " + tweets[i].text);
+	  }
 	});
 }
 
@@ -105,6 +110,14 @@ function movieThis(){
 	    	console.log("Actors: " + movie.Actors);
 	})
 	
+}
+
+
+
+
+//Do What It Says command 
+function doWhatItSays() {
+
 }
 
 
