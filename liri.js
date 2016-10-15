@@ -2,6 +2,7 @@
 //Require data from Twitter NPM
 var twitter = require('twitter');
 var spotify = require('spotify');
+var request = require('request');
 
 //Require data from keys.js
 var liri = require('./keys.js');
@@ -64,13 +65,22 @@ spotify.search({ type: 'track', query: process.argv[3] }, function(err, data) {
     if ( err ) {
         console.log('Error occurred: ' + err);
         return;
+    }
+    else if (!process.argv[3]){
+    	process.argv[3] === "the-sign-ace-of-base";
+    	var songInfo = data.tracks.items[0];
+    	var songResult = 
+                     console.log("Song: " + songInfo.name);
+                     console.log("Artist: " + songInfo.artists[0].name);
+                     console.log("Song Preview: " + songInfo.preview_url);
+                     console.log("Album: " + songInfo.album.name)
     } else {
     	var songInfo = data.tracks.items[0];
     	var songResult = 
-                     console.log(songInfo.name)
-                     console.log(songInfo.artists[0].name)
-                     console.log(songInfo.preview_url)
-                     console.log(songInfo.album)
+                     console.log("Song: " + songInfo.name);
+                     console.log("Artist: " + songInfo.artists[0].name);
+                     console.log("Song Preview: " + songInfo.preview_url);
+                     console.log("Album: " + songInfo.album.name)
     }
  
     // Do something with 'data' 
@@ -83,7 +93,11 @@ spotify.search({ type: 'track', query: process.argv[3] }, function(err, data) {
 //Movie command
 function movieThis(){
 
-	console.log("Here is a cool movie.");
+	request('http://www.omdbapi.com/?s=' + process.argv[3], function (error, response, body) {
+	  	// if (!error && response.statusCode == 200) {
+	    	console.log(response.body); // Show the HTML for the Google homepage. 
+	  	// 
+	})
 	
 }
 
