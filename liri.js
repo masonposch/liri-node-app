@@ -4,6 +4,10 @@ var twitter = require('twitter');
 var spotify = require('spotify');
 var request = require('request');
 
+//Data for reading text files
+var fs = require('fs');
+var path = require('path');
+
 //Require data from keys.js
 var liri = require('./keys.js');
 
@@ -117,6 +121,41 @@ function movieThis(){
 
 //Do What It Says command 
 function doWhatItSays() {
+
+	var filepath = path.join('random.txt');
+
+	fs.readFile(filepath, {encoding: 'utf-8'}, function(err, content){
+		var textRequest = content;
+		// console.log(textRequest);
+
+		var newTextRequest = textRequest.substr(textRequest.indexOf(" ") + 1);
+		// console.log(newTextRequest);
+
+		spotify.search({ type: 'track', query: newTextRequest }, function(err, data) {
+		    if ( err ) {
+		        console.log('Error occurred: ' + err);
+		        return;
+		    }
+		    else if (!newTextRequest){
+		    	newTextRequest === "the-sign-ace-of-base";
+		    	var songInfo = data.tracks.items[0];
+		    	var songResult = 
+		                     console.log("Song: " + songInfo.name);
+		                     console.log("Artist: " + songInfo.artists[0].name);
+		                     console.log("Song Preview: " + songInfo.preview_url);
+		                     console.log("Album: " + songInfo.album.name)
+		    } else {
+		    	var songInfo = data.tracks.items[0];
+		    	var songResult = 
+		                     console.log("Song: " + songInfo.name);
+		                     console.log("Artist: " + songInfo.artists[0].name);
+		                     console.log("Song Preview: " + songInfo.preview_url);
+		                     console.log("Album: " + songInfo.album.name)
+		    }
+		 
+		    // Do something with 'data' 
+		});
+	});
 
 }
 
