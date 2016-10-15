@@ -93,10 +93,16 @@ spotify.search({ type: 'track', query: process.argv[3] }, function(err, data) {
 //Movie command
 function movieThis(){
 
-	request('http://www.omdbapi.com/?s=' + process.argv[3], function (error, response, body) {
+	request('http://www.omdbapi.com/?t=' + process.argv[3], function (error, response, body) {
 	  	// if (!error && response.statusCode == 200) {
-	    	console.log(response.body); // Show the HTML for the Google homepage. 
-	  	// 
+	  		var movie = JSON.parse(response.body);
+	    	console.log("Movie: " +movie.Title);
+	    	console.log("Release Year: " + movie.Year);
+	    	console.log("imdb Rating: " + movie.imdbRating);
+	    	console.log("Country: " + movie.Country);
+	    	console.log("Original Language: " + movie.Language);
+	    	console.log("Plot: " + movie.Plot);
+	    	console.log("Actors: " + movie.Actors);
 	})
 	
 }
